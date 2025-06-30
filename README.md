@@ -28,6 +28,11 @@ cd <repo-name>
 pip install bcrypt cryptography
 ```
 
+### 2.1 Optionally install GUI interface 
+```bash 
+pip install PyQt6 cryptography bcrypt
+```
+
 ### 3. Run the program
 ```bash
 python PassManager.py
