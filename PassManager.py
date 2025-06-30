@@ -75,7 +75,7 @@ def view_vault_entries(username, vault_key, hashed_password): # Added key and ha
      
      print("\n--- Your Entries ---")
      for i, entry in enumerate(entries, 1):
-          # Initially display passwords as encrypted
+          #display passwords as encrypted
           print(f"{i}. {entry['service']} - {entry['username']} / *** (Encrypted)")
 
      while True:
@@ -85,7 +85,7 @@ def view_vault_entries(username, vault_key, hashed_password): # Added key and ha
           if decrypt_choice.isdigit():
                index = int(decrypt_choice) - 1
                if 0 <= index < len(entries):
-                    # Ask for master password to decrypt
+                    # ask for master password to decrypt
                     master_pwd_check = getpass.getpass("Enter your master password to decrypt: ")
                     if verify_password(master_pwd_check, hashed_password): # Use the passed hashed_password
                          try:
@@ -149,7 +149,7 @@ def vault_menu(user_data):
      while True:
           print(f"\n--- {username}'s Vault ---")
           print("1. Add Entry")
-          print("2. View Entries") # Added this display
+          print("2. View Entries")
           print("3. Delete Entry")
           print("4. Logout")
           choice = input("Select an option: ")
@@ -386,14 +386,13 @@ if GUI_AVAILABLE:
             layout.setSpacing(20)
             layout.setContentsMargins(50, 50, 50, 50)
             
-            # Title
-            title = QLabel("Create New Account")
+            title = QLabel("Create New Account") # Title
             title.setAlignment(Qt.AlignmentFlag.AlignCenter)
             title.setFont(QFont("Arial", 20, QFont.Weight.Bold))
             layout.addWidget(title)
             
+            create_layout = QVBoxLayout() 
             # Create account section
-            create_layout = QVBoxLayout()
             create_layout.setSpacing(10)
             
             self.username_input = QLineEdit()
@@ -481,7 +480,7 @@ if GUI_AVAILABLE:
             
             # Header
             header_layout = QHBoxLayout()
-            self.title = QLabel()  # Will be set when user logs in
+            self.title = QLabel()  # will be set when user logsin
             self.title.setFont(QFont("Arial", 18, QFont.Weight.Bold))
             
             logout_btn = QPushButton("Logout")
@@ -493,7 +492,7 @@ if GUI_AVAILABLE:
             header_layout.addWidget(logout_btn)
             layout.addLayout(header_layout)
             
-            # Buttons
+            #buttons
             button_layout = QHBoxLayout()
             
             add_btn = QPushButton("Add Entry")
@@ -512,7 +511,7 @@ if GUI_AVAILABLE:
             
             layout.addLayout(button_layout)
             
-            # Table
+            #Table
             self.table = QTableWidget()
             self.table.setColumnCount(4)
             self.table.setHorizontalHeaderLabels(["Service", "Username", "Password", "Action"])
@@ -528,7 +527,7 @@ if GUI_AVAILABLE:
             self.load_entries()
         
         def load_entries(self):
-            # Use the CLI function directly
+            # CLI function is being used
             entries = load_vault(self.user_data['username'])
             self.table.setRowCount(len(entries))
             
@@ -551,7 +550,7 @@ if GUI_AVAILABLE:
                     QMessageBox.warning(self, "Warning", "Please fill in all fields.")
                     return
                 
-                # Use the CLI function directly
+                # CLI is being used
                 success = add_vault_entry_with_data(
                     self.user_data['username'],
                     self.user_data['vault_key'],
@@ -575,12 +574,12 @@ if GUI_AVAILABLE:
             if not ok or not password:
                 return
             
-            # Use the CLI verify_password function directly
+            #use CLI verify_password function
             if not verify_password(password, self.user_data['hashed_password']):
                 QMessageBox.warning(self, "Error", "Incorrect master password.")
                 return
             
-            # Get encrypted password using CLI function
+            #Get encrypted password using CLI function
             entries = load_vault(self.user_data['username'])
             if row < len(entries):
                 encrypted_password = entries[row]['password']
@@ -603,7 +602,7 @@ if GUI_AVAILABLE:
                 QMessageBox.warning(self, "Warning", "Please select an entry to delete.")
                 return
             
-            # Use CLI function to get entries for display
+            # Use CLI functon to get entries for display
             entries = load_vault(self.user_data['username'])
             service_name = entries[current_row]['service']
             
@@ -614,7 +613,7 @@ if GUI_AVAILABLE:
             )
             
             if reply == QMessageBox.StandardButton.Yes:
-                # Use the CLI function directly
+                #use the CLI function directly
                 success, message = delete_vault_entry_by_index(
                     self.user_data['username'], current_row
                 )
@@ -649,15 +648,15 @@ if GUI_AVAILABLE:
             self.stacked_widget = QStackedWidget()
             self.setCentralWidget(self.stacked_widget)
             
-            # Create windows - they all use CLI functions directly
+            # Create windows which all use CLI functions directly
             self.login_window = LoginWindow(self)
             self.create_account_window = CreateAccountWindow(self)
             self.vault_window = VaultWindow(self)
             
             # Add windows to stack
-            self.stacked_widget.addWidget(self.login_window)      # Index 0
-            self.stacked_widget.addWidget(self.create_account_window)  # Index 1
-            self.stacked_widget.addWidget(self.vault_window)      # Index 2
+            self.stacked_widget.addWidget(self.login_window)      
+            self.stacked_widget.addWidget(self.create_account_window)
+            self.stacked_widget.addWidget(self.vault_window)    
             
             # Start with login window
             self.stacked_widget.setCurrentIndex(0)
@@ -729,3 +728,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+#end 
